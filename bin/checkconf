@@ -278,6 +278,27 @@ gcc_check ()
     return 0
 }
 
+cross_compiler_check()
+{
+    echo -n "Cross Compile Tool: "
+    if [ -z $1 ]
+    then
+        echo "Error - no valid compiler tool passed to check"
+        return 1
+    fi
+    CROSS_COMPILER=$1
+    
+    pathcheck $CROSS_COMPILER
+    if [ $? != 0 ]
+    then
+        echo "ERROR - $CROSS_COMPILER Not found on path"
+        return 1
+    fi
+
+    echo "OK - using" $PATHCHECK_FOUND
+    return 0
+}
+
 # test if we are truing to use valgrind it is in the path
 valgrind_check ()
 {
@@ -931,6 +952,7 @@ cleanup_checks ()
 {
     unset msvs_check
     unset gcc_check
+    unset cross_compiler_check
     unset make_check
     unset bison_check
     unset flex_check
